@@ -8,7 +8,7 @@ WebFlux framework是Spring5第一代响应式编程框架。
 
 spring-webflux依然沿用了与spring-webmvc相同的Controller注解和路由方式，对于旧项目迁移至新项目中带来了便利。
 
-中间层的业务代码由Reactive Stream方式管理，Reactive Streams默认采用Reactor框架（Reactor 入门），同时还支持另一款相对庞大的Reactive Stream框架RxJava。
+中间层的业务代码由Reactive Stream方式管理，Reactive Streams默认采用Reactor框架，同时还支持另一款相对庞大的Reactive Stream框架RxJava。
 
 可以说WebFlux框架是非常灵活的，选择WebFlux作为响应式异步网络编程是明智的选择。
 
@@ -44,7 +44,7 @@ WebFlux模式的优势不是在于底层是否采用了NIO还是BIO，而是在�
         JVM = Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
     4. client server 参数：same with service server
     5. 客户端测试工具 jmeter
-    注：为了尽量和实际service保持一致，每个request耗时控制在20MS。jmx以提交。
+    注：为了尽量和实际service保持一致，每个request耗时控制在20MS。
 
 ### 测试结果
 
@@ -61,7 +61,7 @@ VertX  吞吐量45311.3/s排名第一，在1000并发平均响应性能损失5%�
 
 WebFlux吞吐量44004.2/s排名第二，在1000并发平均响应性能损失10%，最坏情况性能损失20100%。
 
-Tomcat 吞吐量30234.1/s排名第二，在1000并发平均响应性能损失35%，最坏情况性能损失155100%。
+Tomcat 吞吐量30234.1/s排名第三，在1000并发平均响应性能损失35%，最坏情况性能损失155100%。
 
 
 

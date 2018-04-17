@@ -15,7 +15,7 @@ spring-webflux依然沿用了与spring-webmvc相同的Controller注解和路由�
 ## WebFlux framework搭建
 
 1. $ check out this project
-2. $ cd ${product root dir}
+2. $ cd ${project root dir}
 3. $ mvn clean install
 4. $ mvn spring-boot:run
 5. [open browser](http://localhost:8080/product?productId=10)
@@ -43,7 +43,7 @@ WebFlux模式的优势不是在于底层是否采用了NIO还是BIO，而是在�
         java = Java(TM) SE Runtime Environment (build 1.8.0_73-b02)
         JVM = Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
     4. client server 参数：same with service server
-    5. 客户端测试工具 jmeter
+    5. 客户端测试工具 Apache Jmeter 4.0
     注：为了尽量和实际service保持一致，每个request耗时控制在20MS。
 
 ### 测试结果
@@ -69,7 +69,7 @@ Tomcat 吞吐量30234.1/s排名第三，在1000并发平均响应性能损失35%
 ### 总结
 VertX的性能非常优秀，性能损失极低，最坏情况令人满意。
 
-Spring WebFlux性能紧随其后，性能损失和最快情况都稍逊于VertX。
+Spring WebFlux性能紧随其后，性能损失和最坏情况都稍逊于VertX。
 
 Tomcat性能损失偏大，最坏情况性能损失不能令人满意。
 

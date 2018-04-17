@@ -29,3 +29,47 @@ Servlet网络编程采用的是线程或者线程池模型。在BIO模型下，�
 WebFlux模式的优势不是在于底层是否采用了NIO还是BIO，而是在上层替换了旧的Servlet线程模型。既然旧模型的问题在于用户无法使用Loop线程，所以WebFlux直接将Controller移交到Loop线程中，所以在Controller层返回的对象必须用Mono<T>或者Flux<T>包裹。这样做的好处在于允许用户在Loop线程中进行一些快速的非阻塞的操作，比如定义响应式编程模型对象等，不阻塞Loop线程，并绑定Scheduler，保证响应式编程模型能在新的线程中执行，提高并发性能。
 
 将项目以Debug方式启动后，可以将断点设置在Controller入口的第一行代码，并用多个浏览器同时请求可以发现和Spring MVC的差异，当WebFlux设置Loop线程=1时，只有第一个request能进入Controller层，其他线程会在第一个request运行完所有Controller代码后才能依次被调用。而Spring MVC可以允许多个request并发调用Controller层代码。
+
+## 性能测试
+将WebFlux，VertX和Servlet(JAXRS2.1 Tomcat)三者进行性能测试。
+
+### 测试场景
+    1. 1000/user, 总request数量500000
+    2. request：/product?productID=10 response：{"productId":"10"}
+    3. service server 参数：
+        cpu = 32  Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz,
+        memory = 252GB
+        linux = version 2.6.32-358.el6.x86_64
+        java = Java(TM) SE Runtime Environment (build 1.8.0_73-b02)
+        JVM = Java HotSpot(TM) 64-Bit Server VM (build 25.73-b02, mixed mode)
+    4. client server 参数：same with service server
+    5. 客户端测试工具 jmeter
+    注：为了尽量和实际service保持一致，每个request耗时控制在20MS。jmx以提交。
+
+### 测试结果
+
+VertX   summary = 2574404 in 00:00:57 = 45311.3/s Avg:  21 Min:  5 Max:  1133 Err:  75 (0.00%)
+
+WebFlux summary = 2499748 in 00:00:57 = 44004.2/s Avg:  22 Min:  4 Max:  4020 Err: 65 (0.00%)
+
+Tomcat  summary = 1831730 in 00:01:01 = 30234.1/s Avg:  27 Min:  3 Max: 31020 Err:  72 (0.00%)
+
+
+### 结论
+
+VertX  吞吐量45311.3/s排名第一，在1000并发平均响应性能损失5%，最坏情况性能损失5665%。
+
+WebFlux吞吐量44004.2/s排名第二，在1000并发平均响应性能损失10%，最坏情况性能损失20100%。
+
+Tomcat 吞吐量30234.1/s排名第二，在1000并发平均响应性能损失35%，最坏情况性能损失155100%。
+
+
+
+
+### 总结
+VertX的性能非常优秀，性能损失极低，最坏情况令人满意。
+
+Spring WebFlux性能紧随其后，性能损失和最快情况都稍逊于VertX。
+
+Tomcat性能损失偏大，最坏情况性能损失不能令人满意。
+

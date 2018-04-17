@@ -73,3 +73,10 @@ Spring WebFlux性能紧随其后，性能损失和最坏情况都稍逊于VertX�
 
 Tomcat性能损失偏大，最坏情况性能损失不能令人满意。
 
+### 试用场景
+VertX的MVC还停留在API级别，在功能上比Spring MVC要弱，VertX适合一些历史包袱轻的新项目特别是作为Rest Api Service比较适合。
+
+Spring Webflux由于支持Controller，对于一些已有的Spring MVC Service来说，迁移的工作量和风险相对较小。
+
+对于一些service由于并发高导致部署过多instance的可以考虑切换至响应式Java Web，可以打打减少instance的部署，降低机器成不。对于并发不高的service也可以考虑切换，将这些service可以集中部署在几台server上，提高server资源的利用率和维护成本。
+

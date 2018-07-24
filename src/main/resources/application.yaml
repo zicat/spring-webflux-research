@@ -1,5 +1,5 @@
 server:
   port: 8080
 performance:
-  loopThreads: 2
+  loopThreads: 20
   workThreads: 200
